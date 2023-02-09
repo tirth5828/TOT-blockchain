@@ -4,42 +4,62 @@ import Logo from '../../assets/logohorizontal.png'
 import { useNavigate } from "react-router-dom";
 import Boy from "../body/boy";
 import Container from "../body/container";
+import useArcanaAuth from "../../arcanaAuth";
 import Button from "../body/button";
+import {ColorRing} from 'react-loader-spinner';
+import Profile from "../profile/profile";
+  
 const LoginForm = () => {
+    const [loading,setLoading] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [email,setEmail] = useState('');
+    const [account, setAccount] = useState('');
 
-    const initialValues = { email: "", password: "" };
-    const [formValues, setFormValues] = useState(initialValues);
-    const [formErrors, setFormErrors] = useState({});
-    const [isSubmit, setIsSubmit] = useState(false);
+    const {
+        initializeAuth,
+        login,
+        loginWithLink,
+        isLoggedIn,
+        getAccounts,
+        logout,
+        initialized,
+    } = useArcanaAuth();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
+    const initialize = async()=>{
+        await initializeAuth();
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setFormErrors(validate(formValues));
-        setIsSubmit(true);
+    const handleLogout = async()=>{
+        setLoggedIn(false);
+        await logout();
     }
+    const loginwithLink = async(email)=>{
+        await loginWithLink(email);
+        setLoggedIn(true);
+    }
+    useEffect(()=>{
+        initialize();
+    },[]);
 
-    const validate = (values) => {
-        const errors = {};
-        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
-
-        if (!values.email) {
-            errors.email = "Email is required!"
-        } else if (!regex.test(values.email)) {
-            errors.email = "Please enter a valid email format!"
-        }
-        if (!values.password) {
-            errors.password = "Password is required!"
-        } else if (values.password.length < 4) {
-            errors.password = "Password must be more than 4 characters!"
-        } else if (values.password.length > 10) {
-            errors.password = "Password cannot exceed more than 10 characters!"
-        }
-        return errors;
+    useEffect(()=>{
+        const loadDetails = async()=>{
+            if(initialized){
+                const isLogged = await isLoggedIn();
+                if(isLogged){
+                    setLoggedIn(true);
+                    const acc = await getAccounts();
+                    setAccount(acc[0]);
+                    setLoading(false);
+                }
+                else{
+                    setLoading(false);
+                }
+            }
+        };
+        loadDetails();
+    },[initialized]);
+    const handleEmailChange = (event)=>{
+        setEmail(event.target.value);
     }
 
     const history = useNavigate();
@@ -54,58 +74,28 @@ const LoginForm = () => {
                     <img src={Logo} className="log" alt='Code fraggers logo' onClick={() => history("/")}></img>
                 </h1>
                 <div className="logincover">
-                    <h1 className="loginheading">Sign in</h1>
-                    <div className="loginsubcon">
-                        <form onSubmit={handleSubmit}>
-
-                            {(Object.keys(formErrors).length === 0 && isSubmit) ? <div className="row">
-                                <div className="col-xs-12 col-sm-6 col-sm-offset-3">
-                                    <div className="new-message-box">
-                                        <div className="new-message-box-success">
-                                            <div className="info-tab tip-icon-success" title="success"><i></i></div>
-                                            <div className="tip-box-success">
-                                                <p>Successfully logged in!</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                : <div></div>}
-
-                            {(Object.keys(formErrors).length !== 0 && isSubmit) ? <div className="row">
-                                <div className="col-xs-12 col-sm-6 col-sm-offset-3">
-                                    <div className="new-message-box">
-                                        <div className="new-message-box-danger">
-                                            <div className="info-tab tip-icon-danger" title="error"><i></i></div>
-                                            <div className="tip-box-danger">
-                                                <p>Sign in failed, please try again!</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                : <div></div>}
-
-                            <div className="lfullname">
-                                <p>Email</p>
-                                <input type="text" placeholder="Email" name="email" value={formValues.email} onChange={handleChange} />
-                            </div>
-                            <p className="error-text">{formErrors.email}</p>
-                            <div className="lfullname">
-                                <p>Password</p>
-                                <input type="password" placeholder="Password" name="password" value={formValues.password} onChange={handleChange} />
-                            </div>
-                            <p className="error-text">{formErrors.password}</p>
-                            <div className="forgot">
-                                Forgot password?
-                            </div>
-                            {/* <button className="login-btn">Sign in</button> */}
-                            <Button text="Sign in" type="dark-btn" />
-                        </form>
-                        <div className="login" >
-                            Don't have an account?<a onClick={() => history("/code-fraggers/register")}>Sign up</a>
+                <h1 className="loginheading">Sign in</h1>
+                    { loading?(
+                        <div className="'loading" >
+                            <ColorRing visible={true}/>
                         </div>
-                    </div>
+                    ):!loading && loggedIn?(
+                        <Profile/>
+                    ):
+                    (
+                        <div className="loginsubcon">
+                                <p>Leetcode Username</p>
+                                <input type="text" placeholder="User name" name="username" />
+                            
+                            <div>
+                            <p>Email</p>
+                                <input value={email} type='text' placeholder="enter email" onChange={handleEmailChange}/>                               
+                                <button onClick={()=>{loginwithLink(email)}} className="button">
+                                    Login with link
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -114,4 +104,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm
+export default LoginForm;
