@@ -1,0 +1,10 @@
+.boy{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.boy img{
+    width: 90%;
+    height: 87%;
+}
