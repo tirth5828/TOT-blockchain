@@ -2,8 +2,9 @@
     position: absolute;
     top:0;
     left:0;
-    margin-top: 2px;
-    margin-left: 10px;
+    margin-top: 1rem;
+    margin-left: 1.5rem;
+    cursor: pointer;
     /* margin-left: 20px; */
 }
 .logincontainer{
@@ -22,7 +23,7 @@
     left: 0;
     right: 0;
     backdrop-filter: blur(3px);
-    border:2px solid red;
+    /* border:2px solid red; */
    
 }
 .logincover {
@@ -37,7 +38,7 @@
     border-radius: 20px;
     padding-top: 1.5rem;
     margin-top: 5rem;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 .loginheading{
     text-align: center;

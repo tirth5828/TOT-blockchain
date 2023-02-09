@@ -51,7 +51,7 @@ const LoginForm = () => {
             </div>
             <section className="logincontainer">
                 <h1 className="logoimg lgimg">
-                    <img src={Logo} className="log" alt='Code fraggers logo' onClick={() => history("/code-fraggers/")}></img>
+                    <img src={Logo} className="log" alt='Code fraggers logo' onClick={() => history("/")}></img>
                 </h1>
                 <div className="logincover">
                     <h1 className="loginheading">Sign in</h1>
