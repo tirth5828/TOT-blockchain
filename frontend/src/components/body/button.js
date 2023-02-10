@@ -1,5 +1,3 @@
-import "../header/header.css";
-
 const Button = (props) => {
 	return <button className={props.type}>{props.text}</button>;
 };

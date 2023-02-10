@@ -11,7 +11,7 @@ const Header = props =>{
             <img src={Logo} className="log" alt='Code fraggers logo'></img>
         </h1>
        
-        <button className="signIn" onClick={()=>history("/code-fraggers/login")} >
+        <button className="signIn" onClick={()=>history("/login")} >
             Sign In
         </button>
     </div>
