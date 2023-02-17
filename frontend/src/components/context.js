@@ -6,6 +6,7 @@ const AppProvider = ({children})=>{
     const [leetcodeName, setLeetcodeName] = useState('');
     const [email,setEmail] = useState('');
     const [account,setAccount]=useState('');
+    const [companyName, setCompanyName] = useState('');
     
     const changeEmail=(email)=>{
         setEmail(email);
@@ -16,11 +17,13 @@ const AppProvider = ({children})=>{
     const changeAccount=(account)=>{
         setAccount(account);
     }
-
+    const changeCompanyName = (companyName)=>{
+        setCompanyName(companyName);
+    }
     
    
     return (
-        <AppContext.Provider value={{leetcodeName,changeLeetcodeName,email,changeEmail, account,changeAccount}} > {children}</AppContext.Provider>
+        <AppContext.Provider value={{leetcodeName,changeLeetcodeName,email,changeEmail, account,changeAccount, companyName,changeCompanyName}} > {children}</AppContext.Provider>
     )
 };
 

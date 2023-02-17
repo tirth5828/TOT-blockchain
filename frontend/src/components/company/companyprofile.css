@@ -1,0 +1,47 @@
+.description-container{
+    margin-bottom: 2rem;
+}
+.edit-content{
+    display: flex;
+    align-items: center;
+    padding-left: 1.5rem;
+    margin-top: 0.3rem;
+    /* margin: auto; */
+    /* border: 2px solid red; */
+    /* justify-content: center; */
+}
+.edit img{
+    /* border: 2px solid black; */
+    padding: 0.1rem;
+    margin: 0.2rem;
+}
+.edit-btn-text{
+    display: inline-block;
+    /* border: 2px solid yellow; */
+    line-height: 1rem;
+    font-size:medium ;
+    font-family: 'Poppins', sans-serif;
+}
+.description-container h3{
+    justify-content: center;
+    display: inline-block;
+    line-height: 1rem;
+    padding-left: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+.comp-desc-heading{
+    display: flex;
+    align-items: center;
+}
+.email-heading{
+    display: flex;
+    align-items: center;
+
+}
+.email-heading h3{
+    justify-content: center;
+    display: inline-block;
+    line-height: 1rem;
+    padding-left: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+}

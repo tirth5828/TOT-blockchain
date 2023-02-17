@@ -1,0 +1,52 @@
+/* .logincover{
+    background-image: url('../../assets/bottom.png');
+} */
+.company-login-container{
+    width: 100%;
+    background-color:#60c2f4 ;
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 767px){
+        background-color:green;
+    }
+}
+.company-logincover{
+    margin-left: 10%;
+    /* border: 2px solid red; */
+    width: 450px;
+    height: max-content;
+    padding-bottom: 3rem;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    padding-top: 1.5rem;
+    margin-top: 15%;
+}
+.info-cover{
+    /* border: 2px solid green; */
+    margin-right: 0;
+    margin-top: 15%;
+    margin-right: 5rem;
+    height: 50vh;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: medium;
+}
+.info-heading{
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+@media only screen and (max-device-width: 667px)
+{
+    .company-login-container{
+        flex-direction: row;
+    }
+    .info-heading{
+        /* color: white;
+         */
+         color: blueviolet;
+        font-family: 'Poppins', sans-serif;
+    }
+}

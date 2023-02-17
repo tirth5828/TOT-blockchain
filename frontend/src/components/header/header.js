@@ -9,7 +9,7 @@ const Header = () =>{
     const history = useNavigate();
     // const username = props.username;
     // console.log("here "+username);
-    const {leetcodeName,changeLeetcodeName} = useContext(AppContext);
+    const {leetcodeName,changeLeetcodeName, companyName, changeCompanyName} = useContext(AppContext);
     return (
     <header className="header">
     <div className="header--container">
@@ -21,11 +21,15 @@ const Header = () =>{
                 <button className="signIn" onClick={()=>history("/profile")} >
                    {leetcodeName} 
                 </button>
+            ):(companyName?(
+                <button className="signIn" onClick={()=>history("/company-profile")} >
+                   {companyName} 
+                </button>
             ):(
                 <button className="signIn" onClick={()=>history("/login")} >
                   Sign in
                 </button>
-            )
+            ))
         }
         
     </div>
