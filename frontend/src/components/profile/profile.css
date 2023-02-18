@@ -30,6 +30,9 @@
 .navbar-li{
     width: 15%;
 }
+.list li{
+    cursor:pointer;
+}
 
 
 .profile{
