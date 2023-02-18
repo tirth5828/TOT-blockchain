@@ -1,6 +1,9 @@
 import "./subcontainer.css";
 import Button from "./button";
+import {useNavigate} from "react-router-dom";
+
 const Subcontainer1 = (props) => {
+	const history = useNavigate();
 	const buttonText = "Start Recruiting";
 	return (
 		<div className="subcontainer">
@@ -10,7 +13,7 @@ const Subcontainer1 = (props) => {
 				company with minimal <br />
 				effort
 			</p>
-			<Button text={buttonText} type="primary-btn" />
+			<button className="primary-btn" onClick={()=>history("/company-login")}>Start Recruiting</button>
 		</div>
 	);
 };

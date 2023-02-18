@@ -10,7 +10,7 @@ import { AppContext } from "../context";
 import { useNavigate } from "react-router-dom";
 const Profile = () => {
     const history = useNavigate();
-    const {email, account, leetcodeName} = useContext(AppContext);
+    const {email, account, leetcodeName, updateUserProfile} = useContext(AppContext);
     const [profile, updateProfile] = useState({
         dp:'',
         easy:0,
@@ -50,6 +50,13 @@ const Profile = () => {
                 medium:userProfile.data.matchedUser.submitStats.totalSubmissionNum[2].count,
                 hard:userProfile.data.matchedUser.submitStats.totalSubmissionNum[3].count,
             })
+            updateUserProfile({
+                dp:profile.dp,
+                easy:profile.easy,
+                medium:profile.medium,
+                hard:profile.hard,
+            })
+
             console.log(profile);
         } catch (error) {
             console.error(error);
