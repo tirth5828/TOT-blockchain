@@ -7,7 +7,13 @@ const AppProvider = ({children})=>{
     const [email,setEmail] = useState('');
     const [account,setAccount]=useState('');
     const [companyName, setCompanyName] = useState('');
-    
+    const [userProfile, updateUserProfile] = useState({
+        dp:'',
+        easy:0,
+        medium:0,
+        hard:0,
+    });
+
     const changeEmail=(email)=>{
         setEmail(email);
     }
@@ -20,10 +26,10 @@ const AppProvider = ({children})=>{
     const changeCompanyName = (companyName)=>{
         setCompanyName(companyName);
     }
-    
+
    
     return (
-        <AppContext.Provider value={{leetcodeName,changeLeetcodeName,email,changeEmail, account,changeAccount, companyName,changeCompanyName}} > {children}</AppContext.Provider>
+        <AppContext.Provider value={{leetcodeName,changeLeetcodeName,email,changeEmail, account,changeAccount, companyName,changeCompanyName, updateUserProfile}} > {children}</AppContext.Provider>
     )
 };
 
