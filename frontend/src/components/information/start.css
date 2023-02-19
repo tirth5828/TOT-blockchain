@@ -1,0 +1,39 @@
+.start {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.start-title {
+  height: 20%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 48px;
+}
+.start-button {
+  padding-right: 10px;
+}
+
+#start-button {
+  height: 10%;
+  width: 14%;
+  position: absolute;
+  top: 43%;
+  right: 20%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: none;
+  border: 3px solid #003049;
+  border-radius: 10px;
+  font-size: 24px;
+  color: #fff;
+  background-color: #86df9f;
+}

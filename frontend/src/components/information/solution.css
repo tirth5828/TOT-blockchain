@@ -1,0 +1,37 @@
+.solution {
+  position: relative;
+  height: 60%;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding-top: 45px;
+  margin-top: 50px;
+}
+
+.solution-title {
+  height: 20%;
+  width: 100%;
+  display: flex;
+  padding-left: 10px;
+  font-weight: 600;
+  font-size: 48px;
+}
+
+.solution-statement {
+  height: 60%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.solution-statement-text {
+  position: absolute;
+  top: 367;
+  left: 60%;
+  right: 10%;
+  z-index: 1;
+  font-weight: 600;
+}
