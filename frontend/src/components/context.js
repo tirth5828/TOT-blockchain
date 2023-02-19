@@ -29,7 +29,7 @@ const AppProvider = ({children})=>{
 
    
     return (
-        <AppContext.Provider value={{leetcodeName,changeLeetcodeName,email,changeEmail, account,changeAccount, companyName,changeCompanyName, updateUserProfile}} > {children}</AppContext.Provider>
+        <AppContext.Provider value={{leetcodeName,changeLeetcodeName,email,changeEmail, account,changeAccount, companyName,changeCompanyName, userProfile, updateUserProfile}} > {children}</AppContext.Provider>
     )
 };
 

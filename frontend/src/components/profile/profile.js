@@ -139,6 +139,14 @@ const Profile = () => {
 
             const userProfile = await response.json();
             console.log(userProfile)
+
+            updateUserProfile({
+                dp: userProfile.data.matchedUser.profile.userAvatar,
+                easy: userProfile.data.matchedUser.submitStats.totalSubmissionNum[1].count,
+                medium: userProfile.data.matchedUser.submitStats.totalSubmissionNum[2].count,
+                hard: userProfile.data.matchedUser.submitStats.totalSubmissionNum[3].count,
+            })
+
             updateProfile({
                 dp: userProfile.data.matchedUser.profile.userAvatar,
                 easy: userProfile.data.matchedUser.submitStats.totalSubmissionNum[1].count,
@@ -147,12 +155,7 @@ const Profile = () => {
                 submissionCalendar : userProfile.data.matchedUser.submissionCalendar,
             })
             
-            updateUserProfile({
-                dp: profile.dp,
-                easy: profile.easy,
-                medium: profile.medium,
-                hard: profile.hard,
-            })
+            
 
           
         } catch (error) {
@@ -161,7 +164,7 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        console.log(leetcodeName);
+        console.log("UserName", leetcodeName);
         console.log(account);
         fetchUserProfile();
         console.log(profile+"submission calendar is "+profile.submissionCalendar);
@@ -205,7 +208,7 @@ const Profile = () => {
                 <div className="container-right">
                     <div className="heading-container"><h2>Profile</h2></div>
                     <div className="container-right-bottom" >
-                        <div className="streak-container">
+                        {/* <div className="streak-container">
                             <h3>Streak</h3>
                             <div>
                                 <div className="streak-map">
@@ -213,13 +216,13 @@ const Profile = () => {
                                 </div>
 
                             </div>
-                        </div>
+                        </div> */}
                         <div className="email-container">
                             <h3>Email</h3>
                             <div>{email}</div>
                         </div>
                         <div className="address-container">
-                            <h3>Metamask public Address</h3>
+                            <h3>Wallet Address</h3>
                             <div>{account}</div>
                         </div>
                     </div>
