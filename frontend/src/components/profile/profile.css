@@ -33,7 +33,10 @@
 .list li{
     cursor:pointer;
 }
-
+.streak-map{
+    /* margin: 0.5rem; */
+    padding: 0.5rem;
+}
 
 .profile{
     width: 100%;
