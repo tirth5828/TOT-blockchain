@@ -8,7 +8,7 @@ async function newTransaction(req, res) {
   data["timeStamp"] = Date.now();
   data["transactionHash"] = req.body.transactionHash;
   data["tokenReward"] = req.body.tokenReward;
-  User.transaction = [];
+
   User.transaction.push(data);
   await User.save();
 
@@ -17,4 +17,19 @@ async function newTransaction(req, res) {
   });
 }
 
-module.exports = { newTransaction };
+async function getUserTransactions(req, res) {
+  try {
+    const transactions = await user.findOne({ username: req.params.username });
+    return res.status(200).json({
+      transactionData: transactions.transaction,
+      numEasy: transactions.numEasySolved,
+      numMedium: transactions.numMediumSolved,
+      numHard: transactions.numHardSolved,
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching transactions");
+  }
+}
+
+module.exports = { newTransaction, getUserTransactions };
