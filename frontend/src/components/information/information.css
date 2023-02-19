@@ -1,0 +1,31 @@
+.information-header {
+  background-color: #003049;
+  position: fixed;
+  z-index: 1;
+  height: 15%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.information-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+}
+
+.information {
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+html {
+  scroll-behavior: smooth;
+}
