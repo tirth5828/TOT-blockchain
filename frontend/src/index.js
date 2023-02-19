@@ -4,13 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AppProvider } from './components/context';
+import { ProvideAuth } from "@arcana/auth-react";
+import AuthService from './arcanaAuth';
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // const provider = new AuthProvider(process.env."");
+
+// const provider = AuthService.getInstance().provider;
 root.render(
   <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>    
+    {/* <ProvideAuth provider={provider}> */}
+      <AppProvider>
+        <App />
+      </AppProvider>
+    {/* </ProvideAuth> */}
   </React.StrictMode>
 );
 

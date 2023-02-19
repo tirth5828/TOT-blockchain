@@ -49,8 +49,8 @@ const Transactions = () => {
                             <img src={Bell} />
                         </li>
                         <li>
-                            {/* <img src={userProfile.dp} className="navbar-dp" width={30} height={30} /> */}
-                            dp
+                            <img src={userProfile.dp} className="navbar-dp" width={30} height={30} />
+                            {/* dp */}
                             
                         </li>
                     </ul>
@@ -59,22 +59,16 @@ const Transactions = () => {
             </div>
             <div className="transaction-container">
                 <div className="transaction-container-left" >
-                    <img className="transaction-dp" src={Logo} ></img>
+                    <img className="transaction-dp" src={userProfile.dp} ></img>
                     <div className="questions-info">
                         <div className="name" >
                             {leetcodeName}
                         </div>
                         <div className="solved" >
                             <h4>Questions Solved</h4>
-                            easy: <br></br>
-                            medium:<br></br>
-                            hard:<br></br>
-                        </div>
-                        <div className="attempted">
-                            <h4>Questions attempted</h4>
-                            easy: <br></br>
-                            medium: <br></br>
-                            hard: <br></br>
+                            easy: {userProfile.easy}<br></br> 
+                            medium: {userProfile.medium}<br></br> 
+                            hard:  {userProfile.hard}<br></br>
                         </div>
                     </div>
                 </div>
