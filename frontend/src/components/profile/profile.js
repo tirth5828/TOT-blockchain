@@ -8,19 +8,6 @@ import Logo from "../../assets/logohorizontal.png";
 import Edit from "../../assets/arrow-left-thin.png";
 import { AppContext } from "../context";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-import Menu from "../menu/menu";
-const Profile = () => {
-  const history = useNavigate();
-  const { email, account, leetcodeName, updateUserProfile } =
-    useContext(AppContext);
-  const [profile, updateProfile] = useState({
-    dp: "",
-    easy: 0,
-    medium: 0,
-    hard: 0,
-  });
-=======
 import CalendarHeatmap from "react-calendar-heatmap";
 import "./streak.css";
 import { Tooltip as ReactTooltip } from 'react-tooltip'
@@ -125,7 +112,6 @@ const Profile = () => {
         hard: 0,
         submissionCalendar:''
     });
->>>>>>> 1ce7d809db7dfc1a5cdfef127b68873a0eba412d
 
   const API_BASE_URL = "https://b150j.sse.codesandbox.io/"; // Replace with actual API base URL
   const USER_NAME = leetcodeName; // Replace with actual username
