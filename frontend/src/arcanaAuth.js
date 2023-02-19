@@ -1,51 +1,52 @@
 import {AuthProvider} from "@arcana/auth";
-import { useState } from "react";
 
-const appID = "088f7bcaf4cdef82c1a53ec4b0f9a07dcf9736f3";
-let auth;
-function useArcanaAuth(){
-    const [initialized, setInitialized]= useState(false);
-    const initializeAuth = async()=>{
-        if(!auth){
-            auth = new AuthProvider(`${appID}`);
-            await auth.init({appMode:2});
-            setInitialized(true);
-        }
-    }
-    const login = async(socialType)=>{
-        if(initialized){
-            await auth.loginWithSocial(socialType);
-        }
+function createAuthService(){
+    const appID = "088f7bcaf4cdef82c1a53ec4b0f9a07dcf9736f3";
+    const auth = new AuthProvider(`${appID}`);
+
+    function getInstance() {
+        return auth;
     }
 
-    const loginWithLink = async(email)=>{
-        if(initialized){
-            await auth.loginWithLink(email);
+    const addNetwork = async(network) => {
+        try{
+            await auth.provider.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+					chainId: network.chainId,
+					chainName: network.name,
+					nativeCurrency: {
+						name: "BIT",
+						symbol: "BIT", // 2-6 characters long
+						decimals: 18,
+					},
+					rpcUrls: [network.rpc]
+                }]
+            })
+			console.log("Network added")
+        }
+        catch(error){
+            console.log("addNetwork Error: ", error);
         }
     }
-    const isLoggedIn = async()=>{
-        if(initialized){
-            return await auth.isLoggedIn()
+
+    const switchNetwork = async(network) => {
+        try {
+            await auth.provider.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: network.chainId }],
+            });
+
+            console.log("Network switched")
+        } 
+        catch(error) {
+            console.log("switchNetwork Error: ", error);
         }
     }
-    const getAccounts = async()=>{
-        if(initialized){
-            return await auth.provider.request({method:"eth_accounts"});
-        }
-    }
-    const logout = async()=>{
-        if(initialized){
-            return await auth.logout();
-        }
-    }
-    return {
-        initializeAuth,
-        login,
-        loginWithLink,
-        isLoggedIn,
-        getAccounts,
-        logout,
-        initialized,
-    };
+
+    return { getInstance, addNetwork, switchNetwork };
 }
-export default useArcanaAuth;
+
+const AuthService = Object.freeze(createAuthService());
+
+export default AuthService;

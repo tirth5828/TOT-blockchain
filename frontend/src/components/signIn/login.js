@@ -10,62 +10,51 @@ import {ColorRing} from 'react-loader-spinner';
 import Profile from "../profile/profile";
 import HomePage from "../body/homepage";
 import { AppContext } from "../context";
+import { Auth, useAuth } from "@arcana/auth-react";
+import AuthService from '../../arcanaAuth';
+import Networks from '../../networks';
+
+
 const LoginForm = () => {
-    const [loading,setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
-    // const [email,setEmail] = useState('');
-    // const [account, setAccount] = useState('');
-    const {leetcodeName ,changeLeetcodeName,email,changeEmail, account,changeAccount} = useContext(AppContext);
-    const {
-        initializeAuth,
-        login,
-        loginWithLink,
-        isLoggedIn,
-        getAccounts,
-        logout,
-        initialized,
-    } = useArcanaAuth();
+    const {leetcodeName ,changeLeetcodeName,
+        email,changeEmail, account, 
+        changeAccount,initialized, loading,setLoading} = useContext(AppContext);
 
-    const initialize = async()=>{
-        await initializeAuth();
-    }
+    const auth = AuthService.getInstance();
+    const navigate = useNavigate();
 
-    const handleLogout = async()=>{
-        setLoggedIn(false);
-        await logout();
-    }
+    
     const loginwithLink = async(email)=>{
-        await loginWithLink(email);
-        setLoggedIn(true);
+        await auth.loginWithLink(email);
+        const acc = await auth.provider.request({method:"eth_accounts"});
+        console.log("Account ", acc);
+        changeAccount(acc[0]);
+        navigate("/");
     }
+
     useEffect(()=>{
-        initialize();
+        (async() => {
+            await AuthService.getInstance().init()
+            const isLoggedIn = await auth.isLoggedIn()
+            console.log("Logged in", isLoggedIn);
+            setLoggedIn(isLoggedIn);
+            if(isLoggedIn){
+                navigate("/")
+            }
+        })();
+        
     },[]);
 
-    useEffect(()=>{
-        const loadDetails = async()=>{
-            if(initialized){
-                const isLogged = await isLoggedIn();
-                if(isLogged){
-                    setLoggedIn(true);
-                    const acc = await getAccounts();
-                    changeAccount(acc[0]);
-                    setLoading(false);
-                }
-                else{
-                    setLoading(false);
-                }
-            }
-        };
-        loadDetails();
-    },[initialized]);
+
+
     const handleEmailChange = (event)=>{
         changeEmail(event.target.value);
     }
     const handleUserName = (e)=>{
         changeLeetcodeName(e.target.value);
     }
-    const history = useNavigate();
+
     return (
         <>
             {/* <div className="home">
@@ -78,17 +67,13 @@ const LoginForm = () => {
                 </h1>
                 <div className="logincover">
                 <h1 className="loginheading">Sign in</h1> */}
-                    { loading?(
+                    { auth.loading?(
                         <div className="'loading" >
                             <ColorRing visible={true}/>
                         </div>
-                    ):!loading && loggedIn?(
+                    ): loggedIn ?(
                         console.log("logged in"),
-                        console.log(leetcodeName),
-                        // <button onClick={handleLogout} >logout</button>
-                        history("/")
-                        // <HomePage />
-                        
+                        console.log("Leetcodeusername = ", leetcodeName)
                     ):
                     (
                         <div className="logincover">

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@arcana/auth": "^1.0.0",
+    "@arcana/auth-react": "^0.0.3",
     "@emotion/react": "^11.10.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
