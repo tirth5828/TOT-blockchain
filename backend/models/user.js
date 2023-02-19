@@ -1,25 +1,13 @@
 var mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const salt = 10;
+// const bcrypt = require("bcrypt");
+// const salt = 10;
 
 const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    maxlength: 100,
-  },
   username: {
     type: String,
     required: true,
     maxlength: 100,
-    trim: true,
-    unique: true,
-  },
-  metamaskid: {
-    type: String,
-    required: true,
-    lowercase: true,
     trim: true,
     unique: true,
   },
@@ -29,59 +17,64 @@ const userSchema = mongoose.Schema({
     trim: true,
     unique: true,
   },
-  password: {
+  oldEasySolved: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  oldMediumSolved: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  oldHardSolved: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  metamaskid: {
     type: String,
     required: true,
-    minlength: 8,
+    lowercase: true,
+    trim: true,
+    unique: true,
   },
-  easySolved: {
-    type: Number,
+  numEasySolved: {
+    type: [Number],
     default: 0,
-    required: true,
   },
-  mediumSolved: {
-    type: Number,
+  numMediumSolved: {
+    type: [Number],
     default: 0,
-    required: true,
   },
-  hardSolved: {
-    type: Number,
+  numHardSolved: {
+    type: [Number],
     default: 0,
-    required: true,
   },
+  transaction: [
+    {
+      tokenReward: {
+        type: Number,
+        default: 0,
+      },
+      transactionHash: {
+        type: String,
+        trim: true,
+        unique: true,
+      },
+      timeStamp: {
+        type: String,
+        trim: true,
+        unique: true,
+      },
+    },
+  ],
   token: {
     type: String,
   },
 });
-// to signup a user
-userSchema.pre("save", function (next) {
-  var user = this;
-
-  if (user.isModified("password")) {
-    bcrypt.genSalt(salt, function (err, salt) {
-      if (err) return next(err);
-
-      bcrypt.hash(user.password, salt, function (err, hash) {
-        if (err) return next(err);
-        user.password = hash;
-        next();
-      });
-    });
-  } else {
-    next();
-  }
-});
-
-//to login
-userSchema.methods.comparepassword = function (password, cb) {
-  bcrypt.compare(password, this.password, function (err, isMatch) {
-    if (err) return cb(next);
-    cb(null, isMatch);
-  });
-};
 
 // generate token
-
 userSchema.methods.generateToken = function (cb) {
   var user = this;
   var token = jwt.sign(user._id.toHexString(), process.env.SECRET);
@@ -115,13 +108,5 @@ userSchema.methods.deleteToken = function (token, cb) {
     cb(null, user);
   });
 };
-
-// // add leetcode data
-// userSchema.methods.addLeetData = async (username) => {
-//   const leetFullData = await fetch(
-//     `https://leetcode-stats-api.herokuapp.com/${username}`
-//   );
-//   const leetFullDataJson = await leetFullData.json();
-// };
 
 module.exports = mongoose.model("User", userSchema);
