@@ -1,38 +1,43 @@
 const User = require("../models/user");
 const fetch = require("node-fetch");
 
+/*
+    req: username, email, metamaskid
+*/
 const register = async (req, res) => {
-  let obj = req.body;
-  const requestBody = {
-    operationName: "getUserProfile",
-    username: req.body.username,
-  };
-  const headers = {
-    "Content-Type": "application/json",
-  };
-  const API_BASE_URL = "https://b150j.sse.codesandbox.io/user-profile/";
-  let data;
-  try {
-    const response = await fetch(API_BASE_URL + "user-profile", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(requestBody),
-    });
+  console.log("register called", req.body);
 
-    if (response.status !== 200) {
-      throw new Error("Failed to fetch user profile");
-    }
-    data = await response.json();
-  } catch (err) {
-    console.log(err);
-  }
-  const leetFullDataJson = await data.json();
-  obj["oldEasySolved"] =
-    leetFullDataJson.data.matchedUser.submitStats.totalSubmissionNum[1].count;
-  obj["oldMediumSolved"] =
-    leetFullDataJson.data.matchedUser.submitStats.totalSubmissionNum[2].count;
-  obj["oldHardSolved"] =
-    leetFullDataJson.data.matchedUser.submitStats.totalSubmissionNum[3].count;
+  let obj = req.body;
+  // const requestBody = {
+  //   operationName: "getUserProfile",
+  //   username: req.body.username,
+  // };
+  // const headers = {
+  //   "Content-Type": "application/json",
+  // };
+  // const API_BASE_URL = "https://b150j.sse.codesandbox.io/";
+  // let data;
+  // try {
+  //   const response = await fetch(API_BASE_URL + "user-profile", {
+  //     method: "POST",
+  //     headers: headers,
+  //     body: JSON.stringify(requestBody),
+  //   });
+
+  //   if (response.status !== 200) {
+  //     throw new Error("Failed to fetch user profile");
+  //   }
+  //   data = await response.json();
+  // } catch (err) {
+  //   console.log(err);
+  // }
+  // const leetFullDataJson = await data.json();
+  // obj["oldEasySolved"] =
+  //   leetFullDataJson.data.matchedUser.submitStats.totalSubmissionNum[1].count;
+  // obj["oldMediumSolved"] =
+  //   leetFullDataJson.data.matchedUser.submitStats.totalSubmissionNum[2].count;
+  // obj["oldHardSolved"] =
+  //   leetFullDataJson.data.matchedUser.submitStats.totalSubmissionNum[3].count;
 
   let newUser = new User(obj);
 
@@ -48,16 +53,36 @@ const register = async (req, res) => {
       .status(400)
       .json({ auth: false, message: "Username already exits" });
   }
+  user = await User.findOne({ username: req.body.metamaskid });
+  if (user) {
+    return res
+      .status(400)
+      .json({ auth: false, message: "Username already exits" });
+  }
 
   try {
     const savedUser = newUser.save();
     res.status(201).json(savedUser);
 
-    res.status(201).json(savedTransactionUser);
+    //res.status(201).json(savedTransactionUser);
   } catch (err) {
     res.status(500).json(err);
   }
 };
+
+const getUser = async (req, res) => {
+  console.log("getUser called", req.body);
+  let user = await User.findOne({ metamaskid: req.body.metamaskid });
+  if(user){
+    return res.status(200).json({
+      username: user.username,
+      email: user.email,
+    });
+  }
+  return res.status(400).json({
+    message: "User not found",
+  });
+}
 
 const updateData = async (req, res) => {
   let user = await User.findOne(req.user._id);
@@ -127,4 +152,5 @@ const updateData = async (req, res) => {
 module.exports = {
   register,
   updateData,
+  getUser
 };

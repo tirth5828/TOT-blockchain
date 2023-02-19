@@ -13,6 +13,7 @@ import { AppContext } from "../context";
 import { Auth, useAuth } from "@arcana/auth-react";
 import AuthService from '../../arcanaAuth';
 import Networks from '../../networks';
+import {registerUser, getUser} from "../../backend";
 
 
 const LoginForm = () => {
@@ -30,16 +31,32 @@ const LoginForm = () => {
         const acc = await auth.provider.request({method:"eth_accounts"});
         console.log("Account ", acc);
         changeAccount(acc[0]);
+        registerUser(leetcodeName, email, account);
         navigate("/");
     }
 
     useEffect(()=>{
         (async() => {
-            await AuthService.getInstance().init()
+            await auth.init()
             const isLoggedIn = await auth.isLoggedIn()
             console.log("Logged in", isLoggedIn);
-            setLoggedIn(isLoggedIn);
+            
             if(isLoggedIn){
+                (async () => {
+                    const userInfo = await auth.getUser();
+                    const acc = userInfo.address;
+                    console.log("Account of logged in : ", acc);
+                    
+                    const data = await getUser(acc);
+                    console.log(data);
+                    if(data !== null){
+                        changeLeetcodeName(data.username);
+                        changeEmail(data.email);
+                        changeAccount(acc);
+                    }
+                    
+                })();
+                setLoggedIn(isLoggedIn);
                 navigate("/")
             }
         })();
